@@ -68,7 +68,9 @@ superclaude = "superclaude.pytest_plugin"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/superclaude"]
-include = [
+# Use 'artifacts' instead of 'include' to ensure non-Python files are included
+# 'artifacts' is not affected by exclude patterns and works reliably for .md, .json, etc.
+artifacts = [
     "src/superclaude/skills/**/*.md",
     "src/superclaude/skills/**/*.ts",
     "src/superclaude/skills/**/*.json",

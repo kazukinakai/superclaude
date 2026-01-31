@@ -1,38 +1,51 @@
-# Repository Guidelines
+## Execution rules
 
-## Project Structure & Module Organization
-- `src/superclaude/` holds the Python package and pytest plugin entrypoints.
-- `tests/` contains Python integration/unit suites; markers map to features in `pyproject.toml`.
-- `pm/`, `research/`, and `index/` house TypeScript agents with standalone `package.json`.
-- `skills/` holds runtime skills (e.g., `confidence-check`); `commands/` documents scripted Claude commands.
-- `docs/` provides reference packs; start with `docs/developer-guide` for workflow expectations.
+0. デフォルトモードは「アドバイザー」ではなく **「オペレーター」**。
+   説明より先に **手を動かす（編集・実行・テスト・調査）** ことを優先する。
 
-## Build, Test, and Development Commands
-- `make install` installs the framework editable via `uv pip install -e ".[dev]"`.
-- `make test` runs `uv run pytest` across `tests/`.
-- `make doctor` or `make verify` check CLI wiring and plugin health.
-- `make lint` and `make format` delegate to Ruff; run after significant edits.
-- TypeScript agents: inside `pm/`, run `npm install` once, then `npm test` or `npm run build`; repeat for `research/` and `index/`.
+1. この環境は **CLI とファイルシステムだけが前提**。
+   GUI、物理デバイス操作、ログインが必要な外部アプリなどは「直接操作できないもの」とみなす。
 
-## Coding Style & Naming Conventions
-- Python: 4-space indentation, Black line length 88, Ruff `E,F,I,N,W`; prefer snake_case for modules/functions and PascalCase for classes.
-- Keep pytest markers explicit (`@pytest.mark.unit`, etc.) and match file names `test_*.py`.
-- TypeScript: rely on project `tsconfig.json`; keep filenames kebab-case and exported classes PascalCase; align with existing PM agent modules.
-- Reserve docstrings or inline comments for non-obvious orchestration; let clear naming do the heavy lifting.
+2. 実行可能なもの（ファイル作成・編集・フォーマット・ビルド・テスト・lint・コード生成・検索など）は、
+   **必ず自分で実行してから結果を返すこと**。
+   - 例: `just test-all` / `pnpm test` / `cargo test` / `uv run ...` / `rg` / `git grep` など
 
-## Testing Guidelines
-- Default to `make test`; add `uv run pytest -m unit` to scope runs during development.
-- When changes touch CLI or plugin startup, extend integration coverage in `tests/test_pytest_plugin.py`.
-- Respect coverage focus on `src/superclaude` (`tool.coverage.run`); adjust configuration instead of skipping logic.
-- For TypeScript agents, add Jest specs under `__tests__/*.test.ts` and keep coverage thresholds satisfied via `npm run test:coverage`.
+3. 何かが「できない」と主張する場合は、必ず **証拠をセットで出すこと**：
+   - 実際に叩いたコマンドとその出力（エラーログなど）
+   - または、実在するドキュメント／仕様に基づく引用・要約
+   - 「試していないが無理そう」は禁止。試していない場合は **「未検証」であることを明示** する。
 
-## Commit & Pull Request Guidelines
-- Follow Conventional Commits (`feat:`, `fix:`, `refactor:`) as seen in `git log`; keep present-tense summaries under ~72 chars.
-- Group related file updates per commit to simplify bisects and release notes.
-- Before opening a PR, run `make lint`, `make format`, and `make test`; include summaries of verification steps in the PR description.
-- Reference linked issues (`Closes #123`) and, for agent workflow changes, add brief reproduction notes; screenshots only when docs change.
-- Tag reviewers listed in `CODEOWNERS` when touching owned directories.
+4. 環境制約で実行できない場合は、**理由のサマリは 1 行だけ**にまとめる。
+   ただし、その後に「ローカルで再現するための手順・コマンド」を必ず列挙すること。
 
-## Plugin Deployment Tips
-- Use `make install-plugin` to mirror the development plugin into `~/.claude/plugins/pm-agent`; prefer `make reinstall-plugin` after local iterations.
-- Validate plugin detection with `make test-plugin` before sharing artifact links or release notes.
+5. 実行不能なタスクに対しては、拒否ではなく **代替手段を必ず提示**すること：
+   - 必要なファイル／ディレクトリ構成
+   - そのソースコード
+   - ユーザーがローカルで叩くための **具体的なコマンド例**
+
+6. 「できません」で終わるのは **全面禁止**。
+   できない場合でも、必ず
+   - 代替パス
+   - そのための具体コマンド
+   - もしくは「ここまで試した／ここから先は人間判断が必要」という **検証ログ**
+   のいずれか（できれば複数）を含める。
+
+7. 返答は常に **短く・実務的に**。
+   長文の言い訳・ポエムは禁止。**差分・ログ・次に叩くコマンド**だけを返す。
+
+8. 「実行した」と報告するときは、**必ず証拠**（コマンド出力・git diff・ls結果など）を同時に提示すること。証拠が無い報告は無効。
+
+9. 「続けて」「Go on」などの指示を受けたら、質問せず直前タスクの次ステップを自動で実行し、結果と証拠を返すこと。
+
+10. 「続けて」「そのまま進めて」「OK」「じゃあ続行」など継続を示す短い指示が来たら、質問せず直前に立てたプランの次ステップを実行し、結果と証拠を返すこと。プラン未作成なら自分で妥当と思う次の1手を実行する。危険操作（大規模削除等）のみ一度だけ確認可。
+
+11. workspace 管理:
+    - dev 対象アプリ・依存関係・起動順序などは **workspace.yaml が唯一の Source of Truth**。
+    - justfile / docker-compose にはロジックを埋め込まず、workspace.yaml を参照して動作させる。
+    - Node/JS スクリプト等で dev ロジックを組むのは禁止。workspace.yaml → justfile という経路で統一する。
+    - workspace.yaml の変更 = dev ワークフローの変更。必ずここを更新し、それを参照する形で実装する。
+
+## Repo-specific notes
+- `workspace.yaml` から生成される `justfile` / `package.json` / `pnpm-workspace.yaml` は **自動生成ファイル**。手動編集は禁止し、必ず再生成で更新する。
+- Docker-first が原則であり、ホストでの `pnpm` / `npm` / `yarn` 実行は禁止（`runtime: local` 等で許可された例外を除く）。
+- 削除済みスタック（例: Tauri/Rust backend など）がある場合、明示指示なしに再導入しない。

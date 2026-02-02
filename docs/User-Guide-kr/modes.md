@@ -153,19 +153,19 @@
  ✓ TodoWrite: 8개 연구 작업 생성
  🔄 도메인 전반에 걸쳐 병렬 검색 실행
  📈 신뢰도: 15개 검증된 소스에서 0.82
- 📝 보고서 저장됨: claudedocs/research_quantum_[timestamp].md"
+ 📝 보고서 저장됨: docs/research/quantum_[timestamp].md"
 ```
 
 #### 품질 표준
 - [ ] 인라인 인용이 있는 주장당 최소 2개 소스
 - [ ] 모든 발견에 대한 신뢰도 점수 (0.0-1.0)
 - [ ] 독립적인 작업에 대한 병렬 실행 기본값
-- [ ] 적절한 구조로 claudedocs/에 보고서 저장
+- [ ] 적절한 구조로 docs/research/에 보고서 저장
 - [ ] 명확한 방법론 및 증거 제시
 
 **검증:** `/sc:research "테스트 주제"`는 TodoWrite를 생성하고 체계적으로 실행해야 함
 **테스트:** 모든 연구에 신뢰도 점수 및 인용이 포함되어야 함
-**확인:** 보고서가 자동으로 claudedocs/에 저장되어야 함
+**확인:** 보고서가 자동으로 docs/research/에 저장되어야 함
 
 **최적의 협업 대상:**
 - **→ 작업 관리**: TodoWrite 통합을 통한 연구 계획
@@ -458,8 +458,8 @@
 ## 문제 해결
 
 문제 해결 도움말은 다음을 참조하세요:
-- [일반적인 문제](../Reference/common-issues.md) - 자주 발생하는 문제에 대한 빠른 수정
-- [문제 해결 가이드](../Reference/troubleshooting.md) - 포괄적인 문제 해결
+- [일반적인 문제](../reference/common-issues.md) - 자주 발생하는 문제에 대한 빠른 수정
+- [문제 해결 가이드](../reference/troubleshooting.md) - 포괄적인 문제 해결
 
 ### 일반적인 문제
 - **모드가 활성화되지 않음**: 수동 플래그 사용: `--brainstorm`, `--introspect`, `--uc`
@@ -547,7 +547,7 @@
 /sc:reflect --type mode-status            # 현재 모드 상태 확인
 # 요청 복잡성 및 트리거 검토
 ```
-- 모드 설치 문제는 [일반적인 문제 가이드](../Reference/common-issues.md) 참조
+- 모드 설치 문제는 [일반적인 문제 가이드](../reference/common-issues.md) 참조
 
 **수준 3: 전문가 지원 (30분 이상)**
 ```bash
@@ -556,7 +556,7 @@ SuperClaude install --diagnose
 # 모드 활성화 패턴 확인
 # 행동 트리거 및 임계값 검토
 ```
-- 행동 모드 분석은 [진단 참조 가이드](../Reference/diagnostic-reference.md) 참조
+- 행동 모드 분석은 [진단 참조 가이드](../reference/diagnostic-reference.md) 참조
 
 **수준 4: 커뮤니티 지원**
 - [GitHub Issues](https://github.com/SuperClaude-Org/SuperClaude_Framework/issues)에서 모드 문제 보고
@@ -632,26 +632,26 @@ SuperClaude의 5가지 행동 모드는 필요에 따라 자동으로 일치하�
 **학습 진행:**
 
 **🌱 필수 (1주차)**
-- [빠른 시작 가이드](../Getting-Started/quick-start.md) - 모드 활성화 예제
+- [빠른 시작 가이드](../getting-started/quick-start.md) - 모드 활성화 예제
 - [명령어 참조](commands.md) - 명령어가 자동으로 모드 활성화
-- [설치 가이드](../Getting-Started/installation.md) - 행동 모드 설정
+- [설치 가이드](../getting-started/installation.md) - 행동 모드 설정
 
 **🌿 중급 (2-3주차)**
 - [에이전트 가이드](agents.md) - 모드가 전문가와 조정하는 방법
 - [플래그 가이드](flags.md) - 수동 모드 제어 및 최적화
-- [예제 모음](../Reference/examples-cookbook.md) - 실제 모드 패턴
+- [예제 모음](../reference/examples-cookbook.md) - 실제 모드 패턴
 
 **🌲 고급 (2개월 이상)**
 - [MCP 서버](mcp-servers.md) - 향상된 기능과의 모드 통합
 - [세션 관리](session-management.md) - 작업 관리 모드 워크플로우
-- [시작하기](../Getting-Started/quick-start.md) - 모드 사용 패턴
+- [시작하기](../getting-started/quick-start.md) - 모드 사용 패턴
 
 **🔧 전문가**
-- [기술 아키텍처](../Developer-Guide/technical-architecture.md) - 모드 구현 세부사항
-- [코드 기여](../Developer-Guide/contributing-code.md) - 모드 기능 확장
+- [기술 아키텍처](../developer-guide/technical-architecture.md) - 모드 구현 세부사항
+- [코드 기여](../developer-guide/contributing-code.md) - 모드 기능 확장
 
 **모드별 가이드:**
-- **브레인스토밍**: [요구사항 발견 패턴](../Reference/examples-cookbook.md#requirements)
+- **브레인스토밍**: [요구사항 발견 패턴](../reference/examples-cookbook.md#requirements)
 - **작업 관리**: [세션 관리 가이드](session-management.md)
 - **오케스트레이션**: [MCP 서버 가이드](mcp-servers.md)
 - **토큰 효율성**: [명령어 기본사항](commands.md#token-efficiency)
